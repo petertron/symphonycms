@@ -816,10 +816,20 @@ class Database
      *
      * @return boolean
      */
-    public function commit()
+    /*public function commit()
     {
         $this->autoConnect();
         return $this->conn->commit();
+    }*/
+
+    public function commit()
+    {
+        $this->autoConnect();
+        try {
+            return $this->conn->commit();
+        } catch (PDOException $ex) {
+            return false;
+        }
     }
 
     /**
@@ -828,10 +838,20 @@ class Database
      *
      * @return boolean
      */
-    public function rollBack()
+    /*public function rollBack()
     {
         $this->autoConnect();
         return $this->conn->rollBack();
+    }*/
+
+    public function rollBack()
+    {
+        $this->autoConnect();
+        try {
+            return $this->conn->rollBack();
+        } catch (PDOException $ex) {
+            return false;
+        }
     }
 
     /**

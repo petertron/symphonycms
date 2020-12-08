@@ -1261,7 +1261,7 @@ class General
         foreach (scandir($dir) as $file) {
             if (
                 ($file == '.' || $file == '..')
-                || ($ignore_hidden && $file{0} == '.')
+                || ($ignore_hidden && $file[0] == '.')
                 || !is_dir("$dir/$file")
                 || in_array($file, $exclude)
                 || in_array("$dir/$file", $exclude)
@@ -1342,7 +1342,7 @@ class General
         foreach (scandir($dir) as $file) {
             if (
                 ($file == '.' || $file === '..')
-                || ($ignore_hidden && $file{0} === '.')
+                || ($ignore_hidden && $file[0] === '.')
                 || in_array($file, $exclude)
                 || in_array("$dir/$file", $exclude)
             ) {
@@ -1529,9 +1529,9 @@ class General
         $file_size = intval($file_size);
 
         if ($file_size >= (1024 * 1024)) {
-            $file_size = number_format($file_size * (1 / (1024 * 1024)), 2) . ' MB';
+            $file_size = number_format($file_size / (1024 * 1024), 2) . ' MB';
         } elseif ($file_size >= 1024) {
-            $file_size = intval($file_size * (1/1024)) . ' KB';
+            $file_size = intval($file_size / 1024) . ' KB';
         } else {
             $file_size = intval($file_size) . ' bytes';
         }

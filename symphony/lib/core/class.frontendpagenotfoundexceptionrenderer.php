@@ -29,7 +29,8 @@ class FrontendPageNotFoundExceptionRenderer extends ExceptionRenderer
         $previous_exception = Frontend::instance()->getException();
 
         // No 404 detected, throw default Symphony error page
-        if (is_null($page['id'])) {
+        //if (is_null($page['id'])) {
+        if (!isset($page['id'])) {
             static::sendHeaders($e);
             $e = new SymphonyException(
                 $e->getMessage(),

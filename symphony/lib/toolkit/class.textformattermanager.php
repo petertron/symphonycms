@@ -104,8 +104,9 @@ class TextformatterManager implements FileResource
         $result = array();
         $structure = General::listStructure(TEXTFORMATTERS, '/formatter.[\\w-]+.php/', false, 'ASC', TEXTFORMATTERS);
 
-        if (is_array($structure['filelist']) && !empty($structure['filelist'])) {
-            foreach ($structure['filelist'] as $f) {
+        $filelist = $structure['filelist'] ?? null;
+        if (is_array($filelist) && !empty($filelist)) {
+            foreach ($filelist as $f) {
                 $f = self::__getHandleFromFilename($f);
                 $result[$f] = self::about($f);
             }

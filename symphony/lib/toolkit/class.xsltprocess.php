@@ -165,11 +165,11 @@ class XSLTProcess
         $this->_lastContext = $xml;
         set_error_handler(array($this, 'trapXMLError'));
         // Prevent remote entities from being loaded, RE: #1939
-        $elOLD = libxml_disable_entity_loader(true);
+        //$elOLD = libxml_disable_entity_loader(true);
         // Remove null bytes from XML
         $xml = str_replace(chr(0), '', $xml);
         $xmlDoc->loadXML($xml, LIBXML_NONET | LIBXML_DTDLOAD | LIBXML_DTDATTR | defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0);
-        libxml_disable_entity_loader($elOLD);
+        //libxml_disable_entity_loader($elOLD);
 
         // Must restore the error handler to avoid problems
         restore_error_handler();
@@ -179,9 +179,10 @@ class XSLTProcess
         set_error_handler(array($this, 'trapXSLError'));
         // Ensure that the XSLT can be loaded with `false`. RE: #1939
         // Note that `true` will cause `<xsl:import />` to fail.
-        $elOLD = libxml_disable_entity_loader(false);
+        //$elOLD = libxml_disable_entity_loader(false);
         $xslDoc->loadXML($xsl, LIBXML_NONET | LIBXML_DTDLOAD | LIBXML_DTDATTR | defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0);
-        libxml_disable_entity_loader($elOLD);
+        $xslDoc->loadXML($xsl);
+        //libxml_disable_entity_loader($elOLD);
 
         // Load the xsl template
         $XSLProc->importStyleSheet($xslDoc);
@@ -244,7 +245,7 @@ class XSLTProcess
         set_error_handler(array($this, 'trapXMLError'));
         $elOLD = libxml_disable_entity_loader(true);
         $xmlDoc->loadXML($xml, LIBXML_NONET | LIBXML_DTDLOAD | LIBXML_DTDATTR | defined('LIBXML_COMPACT') ? LIBXML_COMPACT : 0);
-        libxml_disable_entity_loader($elOLD);
+        //libxml_disable_entity_loader($elOLD);
 
         // Must restore the error handler to avoid problems
         restore_error_handler();
@@ -362,7 +363,19 @@ class XSLTProcess
             reset($this->_errors);
         }
 
-        return ($all ? $this->_errors : each($this->_errors));
+        //return ($all ? $this->_errors : each($this->_errors));
+        if ($all) {
+            return $this->_errors;
+        }
+
+        $current = current($this->_errors);
+        if ($current === false) {
+            return false;
+        }
+
+        $key = key($this->_errors);
+        next($this->_errors);
+        return [$key, $current];
     }
 
     /**

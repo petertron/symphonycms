@@ -92,11 +92,11 @@ class NavigationDatasource extends Datasource
         $stm = $stm->projection(['p.id', 'p.title', 'p.handle', 'p.sortorder', 'children' => $childrenStm]);
 
         // Add type filters
-        if (trim($this->dsParamFILTERS['type']) != '') {
+        if (trim($this->dsParamFILTERS['type'] ?? '') != '') {
             $this->processNavigationTypeFilter($this->dsParamFILTERS['type'], $stm);
         }
         // Add parent filters
-        if (trim($this->dsParamFILTERS['parent']) != '') {
+        if (trim($this->dsParamFILTERS['parent'] ?? '') != '') {
             $this->processNavigationParentFilter($this->dsParamFILTERS['parent'], $stm);
         } else {
             $stm->where(['p.parent' => null]);

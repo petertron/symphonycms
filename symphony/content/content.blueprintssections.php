@@ -21,12 +21,16 @@ class contentBlueprintsSections extends AdministrationPage
     public function parseContext(array &$context, array $parts)
     {
         // Order is important!
-        $params = array_fill_keys(array('action', 'id', 'flag'), null);
+        //$params = array_fill_keys(array('action', 'id', 'flag'), null);
+        $params = [];
 
         if (isset($parts[2])) {
             $extras = preg_split('/\//', $parts[2], -1, PREG_SPLIT_NO_EMPTY);
-            list($params['action'], $params['id'], $params['flag']) = $extras;
-            $params['id'] = (int)$params['id'];
+            $params['action'] = $extras[0] ?? null;
+            $params['id'] = isset($extras[1]) ? intval($extras[1]) : null;
+            $params['flag'] = $extras[2] ?? null;
+            //list($params['action'], $params['id'], $params['flag']) = $extras;
+            //$params['id'] = (int)$params['id'];
         }
 
         $context = array_filter($params);
@@ -992,12 +996,12 @@ class contentBlueprintsSections extends AdministrationPage
         $div = new XMLElement('div', null, array('class' => 'two columns'));
 
         $hidediv = new XMLElement('div', null, array('class' => 'column'));
-        $label = Widget::Checkbox('meta[hidden]', $meta['hidden'], __('Hide this section from the back-end menu'));
+        $label = Widget::Checkbox('meta[hidden]', $meta['hidden'] ?? null, __('Hide this section from the back-end menu'));
         $hidediv->appendChild($label);
         $div->appendChild($hidediv);
 
         $filterdiv = new XMLElement('div', null, array('class' => 'column'));
-        $label = Widget::Checkbox('meta[filter]', $meta['filter'], __('Allow filtering of section entries'));
+        $label = Widget::Checkbox('meta[filter]', $meta['filter'] ?? null, __('Allow filtering of section entries'));
         $filterdiv->appendChild($label);
 
         $div->appendChild($filterdiv);

@@ -154,7 +154,7 @@ class FieldUpload extends Field implements ExportableField, ImportableField
 
     public static function getMetaInfo($file, $type)
     {
-        $meta = array();
+        $meta = [];
 
         if (!file_exists($file) || !is_readable($file)) {
             return $meta;
@@ -201,7 +201,7 @@ class FieldUpload extends Field implements ExportableField, ImportableField
 
         $label = Widget::Label(__('Destination Directory'));
 
-        $options = array();
+        $options = [];
         $options[] = array('/workspace', false, '/workspace');
 
         if (!empty($directories) && is_array($directories)) {
@@ -258,10 +258,10 @@ class FieldUpload extends Field implements ExportableField, ImportableField
             return false;
         }
 
-        $fields = array();
-
+        $fields = [];
         $fields['destination'] = $this->get('destination');
-        $fields['validator'] = ($fields['validator'] == 'custom' ? null : $this->get('validator'));
+        //$fields['validator'] = ($fields['validator'] == 'custom' ? null : $this->get('validator'));
+        $fields['validator'] = $this->get('validator');
 
         return FieldManager::saveSettings($id, $fields);
     }

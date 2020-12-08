@@ -205,7 +205,7 @@ class ExtensionManager implements FileResource
     {
         static::buildExtensionList();
 
-        return self::$_extensions[$name]['id'];
+        return self::$_extensions[$name]['id'] ?? null;
     }
 
     /**
@@ -304,7 +304,7 @@ class ExtensionManager implements FileResource
     protected static function requiresInstallation($name)
     {
         static::buildExtensionList();
-        $id = self::$_extensions[$name]['id'];
+        $id = self::$_extensions[$name]['id'] ?? null;
 
         return (is_numeric($id) ? false : true);
     }

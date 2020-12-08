@@ -190,7 +190,9 @@ class ExceptionRenderer
         );
 
         $html = str_replace('{ASSETS_URL}', ASSETS_URL, $html);
-        $html = str_replace('{SYMPHONY_URL}', SYMPHONY_URL, $html);
+        if (defined('SYMPHONY_URL')) { // Peter S mod.
+            $html = str_replace('{SYMPHONY_URL}', SYMPHONY_URL, $html);
+        }
         $html = str_replace('{URL}', URL, $html);
         $html = str_replace('{PHP}', PHP_VERSION, $html);
         $html = str_replace(

@@ -183,7 +183,8 @@ class XSRF
     public static function validateRequest($silent = false)
     {
         // Only care if we have a POST request.
-        if (count($_POST) > 0) {
+        //if (count($_POST) > 0) {
+        if (isset($_POST['xsrf'])) {
             if (!self::validateToken($_POST["xsrf"])) {
                 // Token was invalid, show an error page.
                 if (!$silent) {

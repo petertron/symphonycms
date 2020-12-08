@@ -34,7 +34,7 @@ class AuthorDatasource extends Datasource
             ->select()
             ->sort((string)$this->dsParamSORT, $this->dsParamORDER);
 
-        if (is_array($this->dsParamFILTERS) && !empty($this->dsParamFILTERS)) {
+        if (isset($this->dsParamFILTERS) && !empty($this->dsParamFILTERS)) {
             $author_ids = [];
             foreach ($this->dsParamFILTERS as $field => $value) {
                 if (!is_array($value) && trim($value) == '') {
@@ -93,14 +93,14 @@ class AuthorDatasource extends Datasource
                         // The new style of paramater is `ds-datasource-handle.field-handle`
                         $param_key = $key . '.' . str_replace(':', '-', $param);
 
-                        if (!is_array($param_pool[$param_key])) {
+                        if (!isset($param_pool[$param_key])) {
                             $param_pool[$param_key] = array();
                         }
 
                         $param_pool[$param_key][] = ($param === 'name' ? $author->getFullName() : $author->get($param));
 
                         if ($singleParam) {
-                            if (!is_array($param_pool[$key])) {
+                            if (!isset($param_pool[$key])) {
                                 $param_pool[$key] = array();
                             }
 

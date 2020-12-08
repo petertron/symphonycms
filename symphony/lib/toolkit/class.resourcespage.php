@@ -29,7 +29,10 @@ abstract class ResourcesPage extends AdministrationPage
 
         if (isset($parts[2])) {
             $extras = preg_split('/\//', $parts[2], -1, PREG_SPLIT_NO_EMPTY);
-            list($params['action'], $params['handle'], $params['flag']) = $extras;
+            //list($params['action'], $params['handle'], $params['flag']) = $extras;
+            $params['action'] = $extras[0];
+            $params['handle'] = $extras[1] ?? null;
+            $params['flag'] = $extras[2] ?? null;
         }
 
         $context = array_filter($params);

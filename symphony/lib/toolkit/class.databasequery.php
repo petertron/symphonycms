@@ -44,7 +44,7 @@ class DatabaseQuery extends DatabaseStatement
     public function __construct(Database $db, array $projection = [])
     {
         parent::__construct($db, 'SELECT');
-        $this->appendCacheModifier();
+        //$this->appendCacheModifier(); Mod. by Peter S
         if (!empty($projection)) {
             $this->unsafeAppendSQLPart('projection', $this->asProjectionList($projection));
         }

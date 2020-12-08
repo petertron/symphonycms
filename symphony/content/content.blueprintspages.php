@@ -615,7 +615,8 @@ class contentBlueprintsPages extends AdministrationPage
 
     public function __actionEdit()
     {
-        if ($this->_context['action'] !== 'new' && !$page_id = $this->_context['id']) {
+        $page_id = $this->_context['id'] ?? null;
+        if ($this->_context['action'] !== 'new' && !$page_id) {
             redirect(SYMPHONY_URL . '/blueprints/pages/');
         }
 
@@ -693,8 +694,8 @@ class contentBlueprintsPages extends AdministrationPage
                 unset($fields['type']);
 
                 $fields['parent'] = ($fields['parent'] != __('None') ? $fields['parent'] : null);
-                $fields['data_sources'] = is_array($fields['data_sources']) ? implode(',', $fields['data_sources']) : null;
-                $fields['events'] = is_array($fields['events']) ? implode(',', $fields['events']) : null;
+                $fields['data_sources'] = isset($fields['data_sources']) ? implode(',', $fields['data_sources']) : null;
+                $fields['events'] = isset($fields['events']) ? implode(',', $fields['events']) : null;
                 $fields['path'] = null;
 
                 if ($fields['parent']) {

@@ -123,7 +123,7 @@ class contentLogin extends HTMLPage
         $fieldset = new XMLElement('fieldset');
 
         // Display retrieve password UI
-        if ($this->_context['action'] == 'retrieve-password') {
+        if (isset($this->_context['action']) && $this->_context['action'] == 'retrieve-password') {
             $this->Form->setAttribute('action', SYMPHONY_URL.'/login/retrieve-password/');
 
             // Successful reset

@@ -318,15 +318,15 @@ class SMTPGateway extends EmailGateway
      */
     public function setConfiguration($config)
     {
-        $this->setHeloHostname($config['helo_hostname']);
-        $this->setFrom($config['from_address'], $config['from_name']);
-        $this->setHost($config['host']);
-        $this->setPort($config['port']);
-        $this->setSecure($config['secure']);
+        $this->setHeloHostname($config['helo_hostname'] ?? null);
+        $this->setFrom($config['from_address'] ?? null, $config['from_name'] ?? null);
+        $this->setHost($config['host'] ?? null);
+        $this->setPort($config['port'] ?? null);
+        $this->setSecure($config['secure'] ?? null);
 
-        $this->setAuth((int)$config['auth'] === 1);
-        $this->setUser($config['username']);
-        $this->setPass($config['password']);
+        $this->setAuth(isset($config['auth']) ? (int)$config['auth'] === 1 : false);
+        $this->setUser($config['username'] ?? null);
+        $this->setPass($config['password'] ?? null);
         if (isset($config['options'])) {
             $this->_context_options = $config['options'];
         }

@@ -260,9 +260,10 @@ class FieldTagList extends Field implements ExportableField, ImportableField
             $field_groups[$section->get('id')] = array('fields' => $section->fetchFields(), 'section' => $section);
         }
 
+        $pre_populate_source = $this->get('pre_populate_source') ?? [];
         $options = array(
-            array('none', (in_array('none', $this->get('pre_populate_source'))), __('No Suggestions')),
-            array('existing', (in_array('existing', $this->get('pre_populate_source'))), __('Existing Values')),
+            array('none', in_array('none', $pre_populate_source), __('No Suggestions')),
+            array('existing', in_array('existing', $pre_populate_source), __('Existing Values')),
         );
 
         foreach ($field_groups as $group) {
@@ -274,7 +275,7 @@ class FieldTagList extends Field implements ExportableField, ImportableField
 
             foreach ($group['fields'] as $f) {
                 if ($f->get('id') != $this->get('id') && $f->canPrePopulate()) {
-                    $fields[] = array($f->get('id'), (in_array($f->get('id'), $this->get('pre_populate_source'))), $f->get('label'));
+                    $fields[] = array($f->get('id'), (in_array($f->get('id'), $pre_populate_source)), $f->get('label'));
                 }
             }
 
@@ -314,7 +315,8 @@ class FieldTagList extends Field implements ExportableField, ImportableField
         $fields = array();
 
         $fields['pre_populate_source'] = (is_null($this->get('pre_populate_source')) ? 'none' : implode(',', $this->get('pre_populate_source')));
-        $fields['validator'] = ($fields['validator'] == 'custom' ? null : $this->get('validator'));
+        //$fields['validator'] = ($fields['validator'] == 'custom' ? null : $this->get('validator'));
+        $fields['validator'] = $this->get('validator');
 
         if (!FieldManager::saveSettings($id, $fields)) {
             return false;

@@ -42,7 +42,7 @@ class HTMLPage extends Page
      * Defaults to an empty array.
      * @var array
      */
-    protected $_head = array();
+    protected $_head = [];
 
     /**
      * Accessor function for `$this->_head`. Returns all the XMLElements that are
@@ -293,11 +293,13 @@ class HTMLPage extends Page
      *  FILTER_SANITIZE_STRING, but these can be overridden as desired.
      * @return string
      */
-    public function __buildQueryString(array $exclude = array(), $filters = null)
+    public function __buildQueryString(array $exclude = [], string $filter = null, $options = null)
     {
         $exclude[] = 'page';
-        if (is_null($filters)) {
-            $filters = FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_SANITIZE_STRING;
+        if (is_null($filter)) {
+            //$filters = FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH | FILTER_SANITIZE_STRING;
+            $filter = FILTER_SANITIZE_STRING;
+            $options = FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH;
         }
 
         // Generate the full query string and then parse it back to an array
@@ -310,6 +312,6 @@ class HTMLPage extends Page
 
         $query = http_build_query($post_exclusion, null, '&');
 
-        return filter_var(urldecode($query), $filters);
+        return filter_var(urldecode($query), $filter, $options);
     }
 }

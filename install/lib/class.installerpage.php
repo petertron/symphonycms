@@ -352,15 +352,15 @@ class InstallerPage extends HTMLPage
         $User->appendChild(new XMLElement('p', __('Once installation is complete, you will be able to log in to the Symphony admin area with these user details.')));
 
         // Username
-        $label = Widget::Label(__('Username'), Widget::Input('fields[user][username]', $fields['user']['username']));
+        $label = Widget::Label(__('Username'), Widget::Input('fields[user][username]', $fields['user']['username'] ?? null));
 
         $this->__appendError(array('user-no-username'), $label);
         $User->appendChild($label);
 
         // Password
         $Div = new XMLElement('div', null, array('class' => 'two columns'));
-        $Div->appendChild(Widget::Label(__('Password'), Widget::Input('fields[user][password]', $fields['user']['password'], 'password'), 'column'));
-        $Div->appendChild(Widget::Label(__('Confirm Password'), Widget::Input('fields[user][confirm-password]', $fields['user']['confirm-password'], 'password'), 'column'));
+        $Div->appendChild(Widget::Label(__('Password'), Widget::Input('fields[user][password]', $fields['user']['password'] ?? null, 'password'), 'column'));
+        $Div->appendChild(Widget::Label(__('Confirm Password'), Widget::Input('fields[user][confirm-password]', $fields['user']['confirm-password'] ?? null, 'password'), 'column'));
 
         $this->__appendError(array('user-no-password', 'user-password-mismatch'), $Div);
         $User->appendChild($Div);
@@ -372,14 +372,14 @@ class InstallerPage extends HTMLPage
 
         // Personal information: First Name, Last Name
         $Div = new XMLElement('div', null, array('class' => 'two columns'));
-        $Div->appendChild(Widget::Label(__('First Name'), Widget::Input('fields[user][firstname]', $fields['user']['firstname']), 'column'));
-        $Div->appendChild(Widget::Label(__('Last Name'), Widget::Input('fields[user][lastname]', $fields['user']['lastname']), 'column'));
+        $Div->appendChild(Widget::Label(__('First Name'), Widget::Input('fields[user][firstname]', $fields['user']['firstname'] ?? null), 'column'));
+        $Div->appendChild(Widget::Label(__('Last Name'), Widget::Input('fields[user][lastname]', $fields['user']['lastname'] ?? null), 'column'));
 
         $this->__appendError(array('user-no-name'), $Div);
         $Fieldset->appendChild($Div);
 
         // Personal information: Email Address
-        $label = Widget::Label(__('Email Address'), Widget::Input('fields[user][email]', $fields['user']['email']));
+        $label = Widget::Label(__('Email Address'), Widget::Input('fields[user][email]', $fields['user']['email'] ?? null));
 
         $this->__appendError(array('user-invalid-email'), $label);
         $Fieldset->appendChild($label);

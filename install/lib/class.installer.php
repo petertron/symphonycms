@@ -17,13 +17,13 @@ class Installer extends Administration
         self::$Profiler = Profiler::instance();
         self::$Profiler->sample('Engine Initialisation');
 
-        if (get_magic_quotes_gpc()) {
+        /*if (get_magic_quotes_gpc()) {
             General::cleanArray($_SERVER);
             General::cleanArray($_COOKIE);
             General::cleanArray($_GET);
             General::cleanArray($_POST);
             General::cleanArray($_REQUEST);
-        }
+        }*/
 
         // Include the default Config for installation.
         include(INSTALL . '/includes/config_default.php');
@@ -69,7 +69,8 @@ class Installer extends Administration
      */
     public static function initialiseLang()
     {
-        $lang = !empty($_REQUEST['lang']) ? preg_replace('/[^a-zA-Z\-]/', null, $_REQUEST['lang']) : 'en';
+        #$lang = !empty($_REQUEST['lang']) ? preg_replace('/[^a-zA-Z\-]/', null, $_REQUEST['lang']) : 'en';
+        $lang = isset($_REQUEST['lang']) ? preg_replace('/[^a-zA-Z\-]/', null, $_REQUEST['lang']) : 'en';
         Lang::initialize();
         Lang::set($lang, false);
     }

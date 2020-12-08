@@ -79,7 +79,7 @@ class UpdaterPage extends InstallerPage
             );
         }
 
-        if (!empty($this->params['pre-notes'])) {
+        if (isset($this->params['pre-notes'])) {
             $h2 = new XMLElement('h2', __('Pre-Installation Notes:'));
             $dl = new XMLElement('dl');
 
@@ -133,7 +133,7 @@ class UpdaterPage extends InstallerPage
         $h2 = new XMLElement('h2', __('Updating Complete'));
         $this->Form->appendChild($h2);
 
-        if (!empty($this->params['post-notes'])) {
+        if (isset($this->params['post-notes'])) {
             $dl = new XMLElement('dl');
 
             foreach ($this->params['post-notes'] as $version => $notes) {

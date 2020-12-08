@@ -1113,9 +1113,9 @@ class Field implements ArrayAccess
      * @return string
      *  the complete text representation of the values of this field instance.
      */
-    public function prepareTextValue($data, $entry_id = null)
+    public function prepareTextValue(array $data, int $entry_id = null)
     {
-        return strip_tags($data['value']);
+        return isset($data['value']) ? strip_tags($data['value']) : null;
     }
 
     /**

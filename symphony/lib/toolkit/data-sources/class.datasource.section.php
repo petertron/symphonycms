@@ -141,7 +141,10 @@ abstract class SectionDatasource extends Datasource
 
             if (!$this->_param_output_only) {
                 foreach ($this->dsParamINCLUDEDELEMENTS as $handle) {
-                    list($handle, $mode) = preg_split('/\s*:\s*/', $handle, 2);
+                    //list($handle, $mode) = preg_split('/\s*:\s*/', $handle, 2);
+                    $handle_parts = preg_split('/\s*:\s*/', $handle, 2);
+                    $handle = $handle[0];
+                    $mode = $handle[1] ?? null;
 
                     if (self::$_fieldPool[$field_id]->get('element_name') == $handle) {
                         try {
@@ -563,7 +566,7 @@ abstract class SectionDatasource extends Datasource
             $datasource_schema = array_merge($datasource_schema, $this->dsParamPARAMOUTPUT);
         }
 
-        if ($this->dsParamGROUP) {
+        if (isset($this->dsParamGROUP)) {
             $datasource_schema[] = FieldManager::fetchHandleFromID($this->dsParamGROUP);
         }
 

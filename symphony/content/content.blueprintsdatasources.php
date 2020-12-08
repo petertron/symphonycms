@@ -1248,6 +1248,7 @@ class contentBlueprintsDatasources extends ResourcesPage
         $isDuplicate = false;
         $queueForDeletion = null;
 
+        $existing_handle = null;
         if ($this->_context['action'] === 'new' && is_file($file)) {
             $isDuplicate = true;
         } elseif ($this->_context['action'] === 'edit') {
@@ -1350,9 +1351,10 @@ class contentBlueprintsDatasources extends ResourcesPage
                         break;
                     default:
                         $extends = 'SectionDatasource';
-                        $elements = $fields['xml_elements'];
+                        $elements = $fields['xml_elements'] ?? null;
 
-                        if (is_array($fields['filter']) && !empty($fields['filter'])) {
+                        //if (is_array($fields['filter']) && !empty($fields['filter'])) {
+                        if (isset($fields['filter']) && !empty($fields['filter'])) {
                             $filters = array();
 
                             foreach ($fields['filter'] as $f) {
@@ -1362,21 +1364,21 @@ class contentBlueprintsDatasources extends ResourcesPage
                             }
                         }
 
-                        $params['order'] = $fields['order'];
-                        $params['group'] = $fields['group'];
-                        $params['paginateresults'] = $fields['paginate_results'];
-                        $params['limit'] = $fields['max_records'];
-                        $params['startpage'] = $fields['page_number'];
-                        $params['redirectonempty'] = $fields['redirect_on_empty'];
-                        $params['redirectonforbidden'] = $fields['redirect_on_forbidden'];
-                        $params['redirectonrequired'] = $fields['redirect_on_required'];
-                        $params['requiredparam'] = trim($fields['required_url_param']);
-                        $params['negateparam'] = trim($fields['negate_url_param']);
-                        $params['paramoutput'] = $fields['param'];
-                        $params['paramxml'] = $fields['paramxml'];
-                        $params['sort'] = $fields['sort'];
-                        $params['htmlencode'] = $fields['html_encode'];
-                        $params['associatedentrycounts'] = $fields['associated_entry_counts'];
+                        $params['order'] = $fields['order'] ?? '';
+                        $params['group'] = $fields['group'] ?? '';
+                        $params['paginateresults'] = $fields['paginate_results'] ?? '';
+                        $params['limit'] = $fields['max_records'] ?? '';
+                        $params['startpage'] = $fields['page_number'] ?? '';
+                        $params['redirectonempty'] = $fields['redirect_on_empty'] ?? '';
+                        $params['redirectonforbidden'] = $fields['redirect_on_forbidden'] ?? '';
+                        $params['redirectonrequired'] = $fields['redirect_on_required'] ?? '';
+                        $params['requiredparam'] = trim($fields['required_url_param']) ?? '';
+                        $params['negateparam'] = trim($fields['negate_url_param'] ?? '');
+                        $params['paramoutput'] = $fields['param'] ?? '';
+                        $params['paramxml'] = $fields['paramxml'] ?? '';
+                        $params['sort'] = $fields['sort'] ?? '';
+                        $params['htmlencode'] = $fields['html_encode'] ?? '';
+                        $params['associatedentrycounts'] = $fields['associated_entry_counts'] ?? '';
 
                         break;
                 }
@@ -1384,6 +1386,7 @@ class contentBlueprintsDatasources extends ResourcesPage
                 $this->__injectVarList($dsShell, $params);
                 $this->__injectIncludedElements($dsShell, $elements);
                 self::injectFilters($dsShell, $filters);
+                $dependencies = null;
 
                 if (preg_match_all('@(\$ds-[0-9a-z_\.\-]+)@i', $dsShell, $matches)) {
                     $dependencies = General::array_remove_duplicates($matches[1]);
@@ -1483,7 +1486,7 @@ class contentBlueprintsDatasources extends ResourcesPage
                 }
 
                 // Attach this datasources to pages
-                $connections = $fields['connections'];
+                $connections = $fields['connections'] ?? null;
                 ResourceManager::setPages(ResourceManager::RESOURCE_TYPE_DS, is_null($existing_handle) ? $classname : $existing_handle, $connections);
 
                 // If the datasource has been updated and the name changed, then adjust all the existing pages that have the old datasource name

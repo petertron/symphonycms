@@ -499,6 +499,7 @@ class contentBlueprintsEvents extends ResourcesPage
         $isDuplicate = false;
         $queueForDeletion = null;
 
+        $existing_handle = null;
         if ($this->_context['action'] === 'new' && is_file($file)) {
             $isDuplicate = true;
         } elseif ($this->_context['action'] === 'edit') {
@@ -659,7 +660,7 @@ class contentBlueprintsEvents extends ResourcesPage
                 }
 
                 // Attach this event to pages
-                $connections = $fields['connections'];
+                $connections = $fields['connections'] ?? null;
                 ResourceManager::setPages(ResourceManager::RESOURCE_TYPE_EVENT, is_null($existing_handle) ? $classname : $existing_handle, $connections);
 
                 if ($queueForDeletion) {

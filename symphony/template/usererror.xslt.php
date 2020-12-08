@@ -59,7 +59,7 @@ foreach ($errors_grouped as $group => $data) {
 
                 // Highlight error
                 $class = array();
-                if (strpos($data[$index + 1]['message'], '^') !== false) {
+                if (strpos($data[$index + 1]['message'] ?? null, '^') !== false) {
                     $class = array('class' => 'error');
                 }
 
@@ -69,11 +69,11 @@ foreach ($errors_grouped as $group => $data) {
 
                     // Function
                     preg_match('/(.*)\:(\d+)\:/', $e['parts'][1], $current);
-                    if ($data[$index - 1]['parts'][0] != $e['parts'][0] || (strpos($data[$index - 1]['message'], '^') !== false && $data[$index - 2]['message'] != $data[$index + 1]['message'])) {
+                    if ($data[$index - 1]['parts'][0] ?? null != $e['parts'][0] || (strpos($data[$index - 1]['message'], '^') !== false && $data[$index - 2]['message'] != $data[$index + 1]['message'])) {
                         $list->appendChild(
                             new XMLElement(
                                 'li',
-                                '<code><em>' . $e['parts'][0] . ' ' . $current[1] . '</em></code>'
+                                '<code><em>' . $e['parts'][0] ?? null . ' ' . $current[1] . '</em></code>'
                             )
                         );
                     }

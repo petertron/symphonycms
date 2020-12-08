@@ -142,7 +142,7 @@ class SendmailGateway extends EmailGateway
      */
     public function setConfiguration($config)
     {
-        $this->setFrom($config['from_address'], $config['from_name']);
+        $this->setFrom($config['from_address'] ?? null, $config['from_name'] ?? null);
     }
 
     /**

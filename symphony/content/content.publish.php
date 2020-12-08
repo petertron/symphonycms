@@ -34,8 +34,10 @@ class contentPublish extends AdministrationPage
 
         if (isset($parts[2])) {
             $extras = preg_split('/\//', $parts[2], -1, PREG_SPLIT_NO_EMPTY);
-            list($params['page'], $params['entry_id'], $params['flag']) = $extras;
-            $params['entry_id'] = (int)$params['entry_id'];
+            //list($params['page'], $params['entry_id'], $params['flag']) = $extras;
+            $params['page'] = $extras[0];
+            $params['entry_id'] = isset($extras[1]) ? intval($extras[1]) : null;
+            $params['flag'] = $extras[2] ?? null;
         } else {
             $params['page'] = 'index';
         }
@@ -1754,7 +1756,8 @@ class contentPublish extends AdministrationPage
      */
     private function prepareAssociationsDrawer($section)
     {
-        $entry_id = (!is_null($this->_context['entry_id'])) ? $this->_context['entry_id'] : null;
+        //$entry_id = (!is_null($this->_context['entry_id'])) ? $this->_context['entry_id'] : null;
+        $entry_id = $this->_context['entry_id'] ?? null;
         $show_entries = Symphony::Configuration()->get('association_maximum_rows', 'symphony');
 
         if (is_null($entry_id) && !isset($_GET['prepopulate']) || is_null($show_entries) || $show_entries == 0) {

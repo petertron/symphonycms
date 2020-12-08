@@ -88,14 +88,15 @@ abstract class Symphony implements Singleton
     {
         self::$Profiler = Profiler::instance();
 
-        if (get_magic_quotes_gpc()) {
-            General::cleanArray($_SERVER);
-            General::cleanArray($_COOKIE);
-            General::cleanArray($_GET);
-            General::cleanArray($_POST);
-            General::cleanArray($_REQUEST);
+        if (function_exists('get_magic_quotes_gpc')) {
+            if (get_magic_quotes_gpc()) {
+                General::cleanArray($_SERVER);
+                General::cleanArray($_COOKIE);
+                General::cleanArray($_GET);
+                General::cleanArray($_POST);
+                General::cleanArray($_REQUEST);
+            }
         }
-
         // Initialize language management
         Lang::initialize();
         Lang::set(self::$Configuration->get('lang', 'symphony'));

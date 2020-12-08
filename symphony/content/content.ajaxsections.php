@@ -11,7 +11,7 @@ class contentAjaxSections extends JSONPage
 {
     public function view()
     {
-        $sort = General::sanitize($_REQUEST['sort']);
+        $sort = General::sanitize($_REQUEST['sort'] ?? null);
         $sections = (new SectionManager)
             ->select()
             ->sort(empty($sort) ? 'sortorder' : $sort)
