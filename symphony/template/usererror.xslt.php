@@ -58,8 +58,14 @@ foreach ($errors_grouped as $group => $data) {
             foreach ($data as $index => $e) {
 
                 // Highlight error
-                $class = array();
-                if (strpos($data[$index + 1]['message'] ?? null, '^') !== false) {
+                $message_minus_2 = $data[$index - 2]['message'] ?? '';
+                $message_minus_1 = $data[$index - 1]['message'] ?? '';
+                $message_plus_1 = $data[$index + 1]['message'] ?? '';
+                $message_plus_3 = $data[$index + 3]['message'] ?? '';
+                $parts_minus_1 = $data[$index - 1]['parts'] ?? [];
+
+                $class = [];
+                if (strpos($message_plus_1, '^') !== false) {
                     $class = array('class' => 'error');
                 }
 
@@ -69,11 +75,11 @@ foreach ($errors_grouped as $group => $data) {
 
                     // Function
                     preg_match('/(.*)\:(\d+)\:/', $e['parts'][1], $current);
-                    if ($data[$index - 1]['parts'][0] ?? null != $e['parts'][0] || (strpos($data[$index - 1]['message'], '^') !== false && $data[$index - 2]['message'] != $data[$index + 1]['message'])) {
+                    if ($parts_minus_1[0] ?? null != $e['parts'][0] || (strpos($message_minus_1, '^') !== false && $message_minus_2 != $message_plus_1)) {
                         $list->appendChild(
                             new XMLElement(
                                 'li',
-                                '<code><em>' . $e['parts'][0] ?? null . ' ' . $current[1] . '</em></code>'
+                                '<code><em>' . ($e['parts'][0] ?? null) . ' ' . ($current[1] ?? null) . '</em></code>'
                             )
                         );
                     }
@@ -86,8 +92,8 @@ foreach ($errors_grouped as $group => $data) {
 
                     // Error
                     if (!empty($class)) {
-                        if (isset($data[$index + 3]) && !empty($parts[1]) && strpos($data[$index + 3]['message'], $parts[1]) === false) {
-                            $position = explode('(): ', $data[$index + 1]['message']);
+                        if (!empty($parts[1]) && strpos($message_plus_3, $parts[1]) === false) {
+                            $position = explode('(): ', $message_plus_1);
                             $length = max(0, strlen($position[1]) - 1);
                             $list->appendChild(
                                 new XMLElement(
